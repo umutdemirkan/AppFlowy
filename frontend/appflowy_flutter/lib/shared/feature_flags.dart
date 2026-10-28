@@ -96,6 +96,28 @@ enum FeatureFlag {
   }
 
   bool get isOn {
+    // Build the personal, local-first variant with:
+    // flutter build windows --dart-define=MINIMAL_WORKSPACE=true
+    //
+    // This only controls feature-flagged UI/sync entry points. It does not
+    // remove AI/cloud modules from the binary or replace the normal build.
+    const minimalWorkspace = bool.fromEnvironment(
+      'MINIMAL_WORKSPACE',
+      defaultValue: false,
+    );
+    if (minimalWorkspace &&
+        [
+          FeatureFlag.collaborativeWorkspace,
+          FeatureFlag.membersSettings,
+          FeatureFlag.syncDocument,
+          FeatureFlag.syncDatabase,
+          FeatureFlag.planBilling,
+          FeatureFlag.spaceDesign,
+          FeatureFlag.inlineSubPageMention,
+          FeatureFlag.sharedSection,
+        ].contains(this)) {
+      return false;
+    }
     if ([
       FeatureFlag.planBilling,
       // release this feature in version 0.6.1
