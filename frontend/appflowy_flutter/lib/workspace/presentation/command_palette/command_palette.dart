@@ -180,7 +180,11 @@ class CommandPaletteModal extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final workspaceState = context.read<UserWorkspaceBloc?>()?.state;
-    final showAskingAI =
+    const minimalWorkspace = bool.fromEnvironment(
+      'MINIMAL_WORKSPACE',
+      defaultValue: false,
+    );
+    final showAskingAI = !minimalWorkspace &&
         workspaceState?.userProfile.workspaceType == WorkspaceTypePB.ServerW;
     return BlocListener<CommandPaletteBloc, CommandPaletteState>(
       listener: (_, state) {
