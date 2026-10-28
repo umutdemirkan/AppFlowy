@@ -197,12 +197,17 @@ class DesktopHomeScreen extends StatelessWidget {
         layout.showMenu ? const SidebarResizer() : const SizedBox.shrink();
     final editPanel = _buildEditPanel(context, layout: layout);
 
+    const minimalWorkspace = bool.fromEnvironment(
+      'MINIMAL_WORKSPACE',
+      defaultValue: false,
+    );
+
     return _layoutWidgets(
       layout: layout,
       homeStack: homeStack,
       sidebar: sidebar,
       editPanel: editPanel,
-      bubble: const QuestionBubble(),
+      bubble: minimalWorkspace ? const SizedBox.shrink() : const QuestionBubble(),
       homeMenuResizer: homeMenuResizer,
       notificationPanel: notificationPanel,
       sliderHoverTrigger: sliderHoverTrigger,
