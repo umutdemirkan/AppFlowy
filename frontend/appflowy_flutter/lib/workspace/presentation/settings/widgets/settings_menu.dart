@@ -28,6 +28,10 @@ class SettingsMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const minimalWorkspace = bool.fromEnvironment(
+      'MINIMAL_WORKSPACE',
+      defaultValue: false,
+    );
     final theme = AppFlowyTheme.of(context);
 
     return Container(
@@ -86,13 +90,14 @@ class SettingsMenu extends StatelessWidget {
               icon: const FlowySvg(FlowySvgs.settings_page_bell_m),
               changeSelectedPage: changeSelectedPage,
             ),
-            SettingsMenuElement(
-              page: SettingsPage.cloud,
-              selectedPage: currentPage,
-              label: LocaleKeys.settings_menu_cloudSettings.tr(),
-              icon: const FlowySvg(FlowySvgs.settings_page_cloud_m),
-              changeSelectedPage: changeSelectedPage,
-            ),
+            if (!minimalWorkspace)
+              SettingsMenuElement(
+                page: SettingsPage.cloud,
+                selectedPage: currentPage,
+                label: LocaleKeys.settings_menu_cloudSettings.tr(),
+                icon: const FlowySvg(FlowySvgs.settings_page_cloud_m),
+                changeSelectedPage: changeSelectedPage,
+              ),
             SettingsMenuElement(
               page: SettingsPage.shortcuts,
               selectedPage: currentPage,
@@ -100,15 +105,16 @@ class SettingsMenu extends StatelessWidget {
               icon: const FlowySvg(FlowySvgs.settings_page_keyboard_m),
               changeSelectedPage: changeSelectedPage,
             ),
-            SettingsMenuElement(
-              page: SettingsPage.ai,
-              selectedPage: currentPage,
-              label: LocaleKeys.settings_aiPage_menuLabel.tr(),
-              icon: const FlowySvg(
-                FlowySvgs.settings_page_ai_m,
+            if (!minimalWorkspace)
+              SettingsMenuElement(
+                page: SettingsPage.ai,
+                selectedPage: currentPage,
+                label: LocaleKeys.settings_aiPage_menuLabel.tr(),
+                icon: const FlowySvg(
+                  FlowySvgs.settings_page_ai_m,
+                ),
+                changeSelectedPage: changeSelectedPage,
               ),
-              changeSelectedPage: changeSelectedPage,
-            ),
             if (userProfile.workspaceType == WorkspaceTypePB.ServerW &&
                 currentUserRole != null &&
                 currentUserRole != AFRolePB.Guest)
