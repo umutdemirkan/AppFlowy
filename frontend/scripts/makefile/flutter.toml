@@ -40,6 +40,18 @@ run_task = { name = [
 ] }
 script_runner = "@shell"
 
+# Local-first personal build. Kept separate from the standard AppFlowy tasks.
+[tasks.appflowy-minimal-linux]
+dependencies = ["appflowy-core-release"]
+run_task = { name = [
+  "code_generation",
+  "set-app-version",
+  "flutter-build-minimal",
+  "copy-to-product",
+] }
+script_runner = "@shell"
+
+
 [tasks.appflowy-ios]
 dependencies = ["appflowy-core-dev-ios"]
 run_task = { name = [
@@ -243,6 +255,15 @@ script = ["""
   flutter pub get
   flutter packages pub get
   flutter build ${TARGET_OS} --${BUILD_FLAG} --verbose
+  """]
+script_runner = "@shell"
+
+[tasks.flutter-build-minimal]
+script = ["""
+  cd appflowy_flutter/
+  flutter pub get
+  flutter packages pub get
+  flutter build linux --${BUILD_FLAG} --dart-define=MINIMAL_WORKSPACE=true --verbose
   """]
 script_runner = "@shell"
 
