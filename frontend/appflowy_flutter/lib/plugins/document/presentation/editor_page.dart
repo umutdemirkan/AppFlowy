@@ -39,6 +39,11 @@ import 'editor_plugins/toolbar_item/more_option_toolbar_item.dart';
 import 'editor_plugins/toolbar_item/text_heading_toolbar_item.dart';
 import 'editor_plugins/toolbar_item/text_suggestions_toolbar_item.dart';
 
+const _minimalWorkspaceBuild = bool.fromEnvironment(
+  'MINIMAL_WORKSPACE',
+  defaultValue: false,
+);
+
 /// Wrapper for the appflowy editor.
 class AppFlowyEditorPage extends StatefulWidget {
   const AppFlowyEditorPage({
@@ -94,9 +99,9 @@ class _AppFlowyEditorPageState extends State<AppFlowyEditorPage>
   ];
 
   final List<ToolbarItem> toolbarItems = [
-    improveWritingItem,
-    group0PaddingItem,
-    aiWriterItem,
+    if (!_minimalWorkspaceBuild) improveWritingItem,
+    if (!_minimalWorkspaceBuild) group0PaddingItem,
+    if (!_minimalWorkspaceBuild) aiWriterItem,
     customTextHeadingItem,
     buildPaddingPlaceholderItem(
       1,
