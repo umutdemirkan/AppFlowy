@@ -61,12 +61,22 @@ Prefer AppFlowy's existing database and document features over creating duplicat
 
 ## Current status
 
-- This repository is a fork of `AppFlowy-IO/AppFlowy`.
-- The default `main` branch is kept untouched by this work.
-- Added a compile-time `MINIMAL_WORKSPACE` switch in `frontend/appflowy_flutter/lib/shared/feature_flags.dart`. In a minimal build it hides the feature-flagged collaboration, member settings, document/database sync, plan/billing, space design, inline sub-page mention, and shared-section surfaces. Normal builds retain the existing behaviour.
-- Gated the AI search entry in the command palette behind the same switch.
-- These are initial UI/feature-flag changes only. AI modules and other cloud/authentication code remain in the source tree; local/offline startup has not yet been proven.
-- No Windows build or runtime tests have been run from this environment.
+- This repository is a fork of `AppFlowy-IO/AppFlowy`; upstream `main` is not modified by this work.
+- Added a compile-time `MINIMAL_WORKSPACE` switch in `frontend/appflowy_flutter/lib/shared/feature_flags.dart`. In a minimal build it hides selected collaboration, member settings, document/database sync, plan/billing, space design, inline sub-page mention, and shared-section surfaces.
+- Hid the command-palette AI search entry, AI writing commands in the slash menu, AI writing actions in the editor selection toolbar, and the floating support bubble.
+- Hid AI settings and cloud settings entries from the settings menu in a minimal build.
+- These are UI/feature-flag changes only. AI/cloud/authentication modules remain in the source tree. This does not yet prove the app can run fully offline or that all outbound network activity is disabled.
+- No Windows build, static analysis, or runtime tests have been run from this environment. All changes require compilation and testing before they should be considered stable.
+
+## Minimal build switch
+
+From `frontend/appflowy_flutter`, after installing the repository's documented Flutter/Rust prerequisites, the intended Windows build command is:
+
+```powershell
+flutter build windows --dart-define=MINIMAL_WORKSPACE=true
+```
+
+This switch is a starting point for reducing the product surface, not a claim that all AI, account, or network code has been removed. Confirm the official source-build prerequisites in the AppFlowy contributor documentation before building.
 
 ## Minimal build switch
 
