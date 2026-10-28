@@ -60,10 +60,15 @@ List<SelectionMenuItem> _defaultSlashMenuItems({
   DocumentBloc? documentBloc,
   bool isEmpty = false,
 }) {
+  const minimalWorkspace = bool.fromEnvironment(
+    'MINIMAL_WORKSPACE',
+    defaultValue: false,
+  );
+
   return [
-    // ai
-    if (!isEmpty) continueWritingSlashMenuItem,
-    aiWriterSlashMenuItem,
+    // AI writing commands are omitted from the personal minimal build.
+    if (!minimalWorkspace && !isEmpty) continueWritingSlashMenuItem,
+    if (!minimalWorkspace) aiWriterSlashMenuItem,
 
     paragraphSlashMenuItem,
 
