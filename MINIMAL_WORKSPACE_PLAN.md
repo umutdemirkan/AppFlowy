@@ -62,5 +62,18 @@ Prefer AppFlowy's existing database and document features over creating duplicat
 ## Current status
 
 - This repository is a fork of `AppFlowy-IO/AppFlowy`.
-- The default `main` branch is kept untouched by this plan.
-- This plan branch is documentation-only so far. No AppFlowy source code has been changed and no Windows build has been run from this environment.
+- The default `main` branch is kept untouched by this work.
+- Added a compile-time `MINIMAL_WORKSPACE` switch in `frontend/appflowy_flutter/lib/shared/feature_flags.dart`. In a minimal build it hides the feature-flagged collaboration, member settings, document/database sync, plan/billing, space design, inline sub-page mention, and shared-section surfaces. Normal builds retain the existing behaviour.
+- Gated the AI search entry in the command palette behind the same switch.
+- These are initial UI/feature-flag changes only. AI modules and other cloud/authentication code remain in the source tree; local/offline startup has not yet been proven.
+- No Windows build or runtime tests have been run from this environment.
+
+## Minimal build switch
+
+From `frontend/appflowy_flutter`, once the repository's documented Flutter/Rust prerequisites are installed, the intended Windows build command is:
+
+```powershell
+flutter build windows --dart-define=MINIMAL_WORKSPACE=true
+```
+
+This flag is a starting point for product-surface reduction, not a claim that all AI, account, or network code has been removed. Confirm the official source-build prerequisites in the AppFlowy contributor documentation before building.
